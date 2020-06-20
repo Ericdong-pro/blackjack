@@ -5,25 +5,31 @@ class Card:
     """Card class represents a basic playing card. The card has a suit and a rank"""
 
     def __init__(self, suit, rank):
-        pass  # Your code here
+        self.suit = suit
+        self.rank = rank
 
     def __str__(self):
-        pass  # Your code here
+        return f"{self.rank} of {self.suit}"
 
 
 class Deck:
     """Deck class represents a collection of cards. It contains 52 unique cards (exclude red/black Jokers)"""
 
+    suits = ["Spades", "Clubs", "Hearts", "Diamonds"]
+    ranks = {"A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"}
+
     def __init__(self):
-        pass  # Your code here
+        self.cards = [Card(suit, rank) for suit in self.suits for rank in self.ranks]
 
     """Shuffle the cards in a deck"""
+
     def shuffle(self):
-        pass  # Your code here
+        random.shuffle(self.cards)
 
     """The dealer deals cards from the deck to the players"""
+
     def deal(self):
-        pass  # Your code here
+        return self.cards.pop()
 
     def __str__(self):
         return "\n".join([str(card) for card in self.cards])
@@ -31,6 +37,9 @@ class Deck:
 
 class Hand:
     """Hand class represents cards on each player’s hand. It defines scores of each player"""
+
+    values = {"A": 11, "2": 2, "3": 3, "4": 4, "5": 5, "6": 6, "7": 7, "8": 8, "9": 9, "10": 10, "J": 10, "Q": 10,
+              "K": 10}
 
     def __init__(self):
         self.cards = []
@@ -45,7 +54,16 @@ class Hand:
         :param card:
         :return:
         """
-        pass  # Your code here
+        self.cards.append(card)
+
+        adding_value = self.values[card.rank]
+        self.total_value += adding_value
+        if adding_value == 11:
+            self.ace_count += 1
+
+        while self.ace_count > 0 and self.total_value > 21:
+            self.total_value -= 10
+            self.ace_count -= 1
 
     def __str__(self):
         return "\n".join([str(card) for card in self.cards]) + f"\nTotal Value: {self.total_value}\n"
