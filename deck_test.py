@@ -1,6 +1,7 @@
 import unittest
 
 from main import Deck
+from main import Card
 
 
 class DeckTest(unittest.TestCase):
@@ -11,8 +12,9 @@ class DeckTest(unittest.TestCase):
 
     def test_deck_deal(self):
         deck = Deck()
-        deck.deal()
+        card = deck.deal()
         self.assertEqual(len(deck.cards), 51)
+        self.assertIs(type(card), Card)
 
     def test_deck_dealHalf(self):
         deck = Deck()
